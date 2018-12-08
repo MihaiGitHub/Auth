@@ -13,6 +13,9 @@ class LoginForm extends Component {
     onButtonPress() {
         const { email, password } = this.state;
 
+        // Clear error on button press
+        this.setState({ error: '' });
+
         firebase.auth().signInWithEmailAndPassword(email, password)
             .catch(() => {
                 // Create account if user does not have one; does not authenticate
