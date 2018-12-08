@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
-import { TextInput } from 'react-native';
-import { Button, Card, CardSection } from './common';
+import { Button, Card, CardSection, Input } from './common';
 
 class LoginForm extends Component {
-    // Value of text input always comes from the state which is updated onChangeText
+    // Value of email input always comes from the state which is updated onChangeText
     state = {
-        text: ''
+        email: ''
     };
 
     render() {
         return (
             <Card>
                 <CardSection>
-                    <TextInput 
-                        value={this.state.text}
-                        style={{ height: 20, width: 100 }}
-                        onChangeText={text => this.setState({ text })} />{ /* text: text */ }
+                    <Input 
+                        placeholder="user@gmail.com"
+                        label="Email"
+                        value={this.state.email}
+                        onChangeText={email => this.setState({ email })} />{ /* email: email */ }
                 </CardSection>
                 <CardSection />
 
