@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import { Text } from 'react-native';
-import { Button, Card, CardSection, Input } from './common';
 import firebase from 'firebase';
+import { Button, Card, CardSection, Input, Spinner } from './common';
 
 class LoginForm extends Component {
     // Value of email input always comes from the state which is updated onChangeText
     state = {
         email: '',
-        password: ''
+        password: '',
+        error: '',
+        loading: false
     };
 
     onButtonPress() {
         const { email, password } = this.state;
 
         // Clear error on button press
-        this.setState({ error: '' });
+        this.setState({ error: '', loading: true });
 
         firebase.auth().signInWithEmailAndPassword(email, password)
             .catch(() => {
@@ -25,6 +27,19 @@ class LoginForm extends Component {
                         this.setState({ error: 'Authentication Failed.' })
                     })
             })
+    }
+
+    renderButton() {
+        /* Whichever gets returned first; same as if/else */
+        if(this.state.loading){
+            return <Spinner size="small" />
+        }
+
+        return (
+            <Button onPress={this.onButtonPress.bind(this)}>
+                Log In
+            </Button>
+        );
     }
 
     render() {
@@ -54,9 +69,7 @@ class LoginForm extends Component {
                 </Text>
 
                 <CardSection>
-                    <Button onPress={this.onButtonPress.bind(this)}>
-                        Log In
-                    </Button>
+                    {this.renderButton()}
                 </CardSection>
             </Card>
         );
