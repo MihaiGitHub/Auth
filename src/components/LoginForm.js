@@ -4,7 +4,8 @@ import { Button, Card, CardSection, Input } from './common';
 class LoginForm extends Component {
     // Value of email input always comes from the state which is updated onChangeText
     state = {
-        email: ''
+        email: '',
+        password: ''
     };
 
     render() {
@@ -17,7 +18,16 @@ class LoginForm extends Component {
                         value={this.state.email}
                         onChangeText={email => this.setState({ email })} />{ /* email: email */ }
                 </CardSection>
-                <CardSection />
+                
+                <CardSection>
+                    { /* password argument is the text the user entered */ }
+                    <Input 
+                        secureTextEntry
+                        placeholder="password"
+                        label="Password"
+                        value={this.state.password}
+                        onChangeText={password => this.setState({ password })} />
+                </CardSection>
 
                 <CardSection>
                     <Button onPress={() => console.log('eurekae')}>
