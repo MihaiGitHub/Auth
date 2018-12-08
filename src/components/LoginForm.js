@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { Text } from 'react-native';
 import { Button, Card, CardSection, Input } from './common';
+import firebase from 'firebase';
 
 class LoginForm extends Component {
     // Value of email input always comes from the state which is updated onChangeText
@@ -7,6 +9,20 @@ class LoginForm extends Component {
         email: '',
         password: ''
     };
+
+    onButtonPress() {
+        const { email, password } = this.state;
+
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .catch(() => {
+                // Create account if user does not have one; does not authenticate
+                firebase.auth().createUserWithEmailAndPassword(email, password)
+                    .catch(() => {
+                        // If user fails authentication we will have new state term; error
+                        this.setState({ error: 'Authentication Failed.' })
+                    })
+            })
+    }
 
     render() {
         return (
@@ -29,8 +45,13 @@ class LoginForm extends Component {
                         onChangeText={password => this.setState({ password })} />
                 </CardSection>
 
+                { /* Will show error if there is one */ }
+                <Text style={styles.errorTextStyle}>
+                    {this.state.error}
+                </Text>
+
                 <CardSection>
-                    <Button onPress={() => console.log('eurekae')}>
+                    <Button onPress={this.onButtonPress.bind(this)}>
                         Log In
                     </Button>
                 </CardSection>
@@ -38,5 +59,13 @@ class LoginForm extends Component {
         );
     }
 }
+
+const styles = {
+    errorTextStyle: {
+        fontSize: 20,
+        alignSelf: 'center',
+        color: 'red'
+    }
+};
 
 export default LoginForm;
