@@ -11,7 +11,7 @@ class App extends Component {
 
     componentWillMount() {
         firebase.initializeApp({
-            apiKey: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+            apiKey: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
             authDomain: 'authentication-85832.firebaseapp.com',
             databaseURL: 'https://authentication-85832.firebaseio.com',
             projectId: 'authentication-85832',
@@ -32,7 +32,11 @@ class App extends Component {
     renderContent(){
         switch(this.state.loggedIn){
             case true:
-                return <Button>Log Out</Button>;
+                return (
+                    <Button onPress={() => firebase.auth().signOut()}>
+                            Log Out
+                    </Button> 
+                );
             case false:
                 return <LoginForm />;
             default:
